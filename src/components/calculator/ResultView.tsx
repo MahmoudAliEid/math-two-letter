@@ -2,7 +2,8 @@
 
 import { Card, CardContent } from '@/components/ui/card';
 import { CalculationResult } from '@/lib/calculate';
-import { Hash, Divide, Sigma, Calculator, Radical } from 'lucide-react';
+import { Hash, Divide, Sigma, Calculator, Radical, Sparkles } from 'lucide-react';
+
 
 interface ResultViewProps {
     result: CalculationResult | null;
@@ -43,6 +44,57 @@ export default function ResultView({ result }: ResultViewProps) {
 
     return (
         <div className="space-y-6 animate-in fade-in slide-in-from-bottom-8 duration-700">
+
+            {/* ── Final Results Summary Card ── */}
+            <Card className="glass border-emerald-500/20 overflow-hidden relative bg-gradient-to-br from-emerald-950/20 via-slate-900/40 to-teal-950/20">
+                <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-emerald-500 via-teal-400 to-emerald-500" />
+                <CardContent className="p-6">
+                    <div className="flex items-center gap-3 mb-6">
+                        <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white text-sm font-black shadow-lg shadow-emerald-500/20">
+                            ★
+                        </div>
+                        <Sparkles className="w-5 h-5 text-emerald-400/60 animate-pulse" />
+                        <h3 className="text-lg font-bold text-white tracking-tight">خلاصة النتائج النهائية</h3>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+                        {/* Hero Display: Final Value */}
+                        <div className="md:col-span-5 text-center flex flex-col items-center justify-center border-b md:border-b-0 md:border-l border-white/5 pb-6 md:pb-0 md:pl-6 relative">
+                            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                                <div className="w-24 h-24 bg-emerald-500/10 rounded-full blur-2xl animate-pulse" />
+                            </div>
+                            <span className="text-[0.65rem] font-black text-emerald-400 uppercase tracking-wider block mb-2">النتيجة النهائية</span>
+                            <div className="relative">
+                                <span className="text-7xl font-black bg-gradient-to-r from-emerald-400 via-teal-300 to-emerald-400 bg-clip-text text-transparent drop-shadow-[0_0_20px_rgba(52,211,153,0.3)]">
+                                    {result.digitReduction.finalValue}
+                                </span>
+                            </div>
+                        </div>
+
+                        {/* Details */}
+                        <div className="md:col-span-7 space-y-4" dir="rtl">
+                            <div className="flex items-center justify-between py-2 border-b border-white/5">
+                                <span className="text-xs font-bold text-slate-400">الناتج الإجمالي (Step 4)</span>
+                                <span className="text-lg font-bold text-white font-mono">
+                                    <FractionDisplay value={result.grandTotal} />
+                                </span>
+                            </div>
+                            <div className="flex items-center justify-between py-2 border-b border-white/5">
+                                <span className="text-xs font-bold text-slate-400">الصيغة الجذرية (Step 5)</span>
+                                <span className="text-sm font-bold text-teal-300 font-mono" dir="ltr">
+                                    √({result.grandTotal}) = {result.radicalDisplay}
+                                </span>
+                            </div>
+                            <div className="flex items-center justify-between py-2">
+                                <span className="text-xs font-bold text-slate-400">قيمة الآلة الحاسبة</span>
+                                <span className="text-md font-bold text-amber-400/90 font-mono" dir="ltr">
+                                    {result.sqrtRounded}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </CardContent>
+            </Card>
 
             {/* ── Step 1: Natural Count ── */}
             <Card className="glass border-white/5 overflow-hidden">
